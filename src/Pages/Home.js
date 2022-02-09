@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Img from '../logo.png';
+import Categories from '../Components/Categories';
 import Header from '../Components/Header';
 
 export default class Home extends React.Component {
@@ -20,6 +21,7 @@ export default class Home extends React.Component {
           />
         </Link>
 
+        <Categories />
       </>
     );
   }
