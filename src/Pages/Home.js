@@ -48,7 +48,6 @@ export default class Home extends React.Component {
     const { results, currentCategoryId } = this.state;
     return (
       <>
-
         <div>
           <Header handleClick={ this.handleClick } />
           <Link data-testid="shopping-cart-button" to="/Cart">
