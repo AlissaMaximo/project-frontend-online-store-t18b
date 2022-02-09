@@ -9,14 +9,23 @@ import Product from '../Components/Product';
 export default class Home extends React.Component {
   state = {
     results: [],
+    currentCategoryId: '',
   }
 
   handleClick = async (event, string) => {
     event.preventDefault();
-    const products = await api.getProductsFromCategoryAndQuery('', string);
+    const { currentCategoryId } = this.state;
+    const products = await api.getProductsFromCategoryAndQuery(currentCategoryId, string);
     this.setState({
       results: products.results,
     });
+  }
+
+  handleCategorySelect = ({target}) => {
+    const selectedCategoryId = target.id;
+    if (target.checked) {
+      this.setState({currentCategoryId: selectedCategoryId});
+    }
   }
 
   toRender = () => {
@@ -36,7 +45,7 @@ export default class Home extends React.Component {
     </h3>)
 
   render() {
-    const { results } = this.state;
+    const { results, currentCategoryId } = this.state;
     return (
       <>
 
@@ -50,7 +59,7 @@ export default class Home extends React.Component {
             />
           </Link>
         </div>
-        <Categories />
+        <Categories handleCategorySelect={ this.handleCategorySelect } />
         { results.length > 0 ? this.toRender() : this.message()}
       </>
     );

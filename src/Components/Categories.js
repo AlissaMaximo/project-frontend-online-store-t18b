@@ -17,6 +17,7 @@ export default class Categories extends React.Component {
 
   render() {
     const { categories } = this.state;
+    const { handleCategorySelect } = this.props;
     return (
       <details>
         <summary>Categorias:</summary>
@@ -26,7 +27,8 @@ export default class Categories extends React.Component {
               <label htmlFor={ id } data-testid="category">
                 {' '}
                 {name}
-                <input name="categorie" type="radio" id={ id } />
+                <input name="categorie" type="radio" id={ id }
+                onChange={handleCategorySelect} />
               </label>
             </div>
           ))
