@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import Img from '../logo.png';
+import Categories from '../Components/Categories';
 import Header from '../Components/Header';
 import * as api from '../services/api';
 import Product from '../Components/Product';
@@ -36,7 +39,18 @@ export default class Home extends React.Component {
     const { results } = this.state;
     return (
       <>
-        <Header handleClick={ this.handleClick } />
+
+        <div>
+          <Header handleClick={ this.handleClick } />
+          <Link data-testid="shopping-cart-button" to="/Cart">
+            <img
+              src={ Img }
+              alt="cart logo"
+              height="30px"
+            />
+          </Link>
+        </div>
+        <Categories />
         { results.length > 0 ? this.toRender() : this.message()}
       </>
     );
