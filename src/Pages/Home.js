@@ -17,7 +17,6 @@ export default class Home extends React.Component {
             src={ Img }
             alt="cart logo"
             height="30px"
-
           />
         </Link>
 
