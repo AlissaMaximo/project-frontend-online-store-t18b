@@ -18,4 +18,3 @@ export async function getProductsFromCategoryAndQuery(categoryId, query) {
   } catch (error) {
     return error;
   }
-}
