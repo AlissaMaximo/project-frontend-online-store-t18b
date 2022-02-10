@@ -21,7 +21,7 @@ export default class ProductDetails extends React.Component {
     });
   }
 
-  greateDetailsList = () => {
+  createDetailsList = () => {
     const { product: { attributes } } = this.state;
     console.log(attributes);
     return attributes.map((attribute) => (
@@ -46,7 +46,7 @@ export default class ProductDetails extends React.Component {
           />
           <div className="details-info">
             <ol>
-              {this.greateDetailsList()}
+              {this.createDetailsList()}
             </ol>
           </div>
         </section>
