@@ -21,8 +21,6 @@ export const addCartIten = (cartData) => {
   const check = cartItens.some((iten) => iten.id === cartData.id);
 
   if (check) {
-    const itenToRemove = cartItens.find((iten) => iten.id === cartData.id);
-    console.log(itenToRemove.id);
     const newSavedItens = (cartItens.filter((s) => s.id !== cartData.id));
     saveCartIten([...newSavedItens, cartData]);
   } else if (cartData) {

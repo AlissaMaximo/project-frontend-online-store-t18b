@@ -12,6 +12,7 @@ export default class ProductDetails extends React.Component {
 
   componentDidMount() {
     this.handleProduct();
+
     const { match: { params: { productid } } } = this.props;
     const cartItens = getCartIten();
     const product = cartItens.find((iten) => iten.id === productid);
