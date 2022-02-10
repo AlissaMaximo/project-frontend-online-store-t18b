@@ -2,14 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CartLink from '../Components/CartLink';
 import * as api from '../services/api';
+import { addCartIten, getCartIten } from '../services/storageAPI';
 
 export default class ProductDetails extends React.Component {
   state = {
     loading: true,
+    itemQuantity: 0,
   }
 
   componentDidMount() {
     this.handleProduct();
+
+    const { match: { params: { productid } } } = this.props;
+    const cartItens = getCartIten();
+    const product = cartItens.find((iten) => iten.id === productid);
+
+    if (product) {
+      this.setState({ itemQuantity: product.quantity });
+    }
+  }
+
+  handleProductQuantity = () => {
+    this.setState((previous) => ({ itemQuantity: previous.itemQuantity + 1 }));
   }
 
   handleProduct = async () => {
@@ -29,7 +43,7 @@ export default class ProductDetails extends React.Component {
   }
 
   toRender = () => {
-    const { product: { title, price, thumbnail } } = this.state;
+    const { product: { title, price, thumbnail, id }, itemQuantity } = this.state;
     return (
       <>
         <div className="details-page-header">
@@ -47,6 +61,26 @@ export default class ProductDetails extends React.Component {
             <ol>
               {this.createDetailsList()}
             </ol>
+          </div>
+          <div className="container-quantity">
+            <p className="quantity">
+              {itemQuantity}
+            </p>
+            <button
+              data-testid="product-detail-add-to-cart"
+              type="button"
+              onClick={ () => {
+                addCartIten({
+                  title,
+                  price,
+                  thumbnail,
+                  id,
+                  quantity: itemQuantity + 1 });
+                this.handleProductQuantity();
+              } }
+            >
+              Adicionar ao Carrinho
+            </button>
           </div>
         </section>
       </>
