@@ -9,14 +9,30 @@ import Product from '../Components/Product';
 export default class Home extends React.Component {
   state = {
     results: [],
+    currentCategoryId: '',
+    inputValue: '',
   }
 
-  handleClick = async (event, string) => {
-    event.preventDefault();
-    const products = await api.getProductsFromCategoryAndQuery('', string);
+  handleInputChange = (event) => {
+    this.setState({ inputValue: event.target.value });
+  }
+
+  handleClick = async (event) => {
+    if (event && event.target.button) {
+      event.preventDefault();
+    }
+    const { currentCategoryId, inputValue } = this.state;
+    const products = await api
+      .getProductsFromCategoryAndQuery(currentCategoryId, inputValue);
     this.setState({
       results: products.results,
     });
+  }
+
+  handleCategorySelect = (event) => {
+    const selectedCategoryId = event.target.id;
+    this.setState({ currentCategoryId: selectedCategoryId },
+      () => this.handleClick(event));
   }
 
   toRender = () => {
@@ -39,9 +55,11 @@ export default class Home extends React.Component {
     const { results } = this.state;
     return (
       <>
-
         <div>
-          <Header handleClick={ this.handleClick } />
+          <Header
+            handleClick={ this.handleClick }
+            handleInputChange={ this.handleInputChange }
+          />
           <Link data-testid="shopping-cart-button" to="/Cart">
             <img
               src={ Img }
@@ -50,7 +68,10 @@ export default class Home extends React.Component {
             />
           </Link>
         </div>
-        <Categories />
+        <Categories
+          handleCategorySelect={ this.handleCategorySelect }
+          handleClick={ this.handleClick }
+        />
         { results.length > 0 ? this.toRender() : this.message()}
       </>
     );

@@ -17,16 +17,24 @@ export default class Categories extends React.Component {
 
   render() {
     const { categories } = this.state;
+    const { handleCategorySelect, handleClick } = this.props;
     return (
       <details>
         <summary>Categorias:</summary>
+        <label htmlFor="all">
+        <input name="categorie" type="radio" id="all"
+          onChange={ handleCategorySelect }
+        />
+        </label>
         { (categories.length > 0) && (
           categories.map(({ id, name }) => (
             <div key={ id }>
               <label htmlFor={ id } data-testid="category">
                 {' '}
                 {name}
-                <input name="categorie" type="radio" id={ id } />
+                <input name="categorie" type="radio" id={ id }
+                onChange={ handleCategorySelect }
+                />
               </label>
             </div>
           ))

@@ -6,14 +6,14 @@ export default class Header extends React.Component {
     input: '',
   }
 
-  handleChange = ({ target }) => {
+  /* handleChange = ({ target }) => {
     this.setState({
       input: target.value,
     });
-  }
+  } */
 
   render() {
-    const { handleClick } = this.props;
+    const { handleClick, handleInputChange } = this.props;
     const { input } = this.state;
     return (
       <form onSubmit={ (event) => handleClick(event, input) }>
@@ -21,7 +21,7 @@ export default class Header extends React.Component {
           type="text"
           placeholder="Digite sua busca aqui"
           id="input"
-          onChange={ this.handleChange }
+          onChange={ handleInputChange }
           data-testid="query-input"
         />
         <button type="submit" id="button" data-testid="query-button">
@@ -33,4 +33,5 @@ export default class Header extends React.Component {
 }
 Header.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
 };
