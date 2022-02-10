@@ -10,22 +10,27 @@ export default class Home extends React.Component {
   state = {
     results: [],
     currentCategoryId: '',
+    inputValue: '',
   }
 
-  handleClick = async (event, string) => {
-    event.preventDefault();
-    const { currentCategoryId } = this.state;
-    const products = await api.getProductsFromCategoryAndQuery(currentCategoryId, string);
+  handleInputChange = (event) => {
+    this.setState({ inputValue: event.target.value });
+  }
+
+  handleClick = async (event) => {    
+    if (event && event.target.button) {
+      event.preventDefault();
+    }
+    const { currentCategoryId, inputValue } = this.state;
+    const products = await api.getProductsFromCategoryAndQuery(currentCategoryId, inputValue);
     this.setState({
       results: products.results,
     });
   }
 
-  handleCategorySelect = ({target}) => {
-    const selectedCategoryId = target.id;
-    if (target.checked) {
-      this.setState({currentCategoryId: selectedCategoryId});
-    }
+  handleCategorySelect = (event) => {
+    const selectedCategoryId = event.target.id;
+    this.setState({currentCategoryId: selectedCategoryId}, (event) => this.handleClick(event));
   }
 
   toRender = () => {
@@ -45,11 +50,11 @@ export default class Home extends React.Component {
     </h3>)
 
   render() {
-    const { results, currentCategoryId } = this.state;
+    const { results, currentCategoryId, inputValue } = this.state;
     return (
       <>
         <div>
-          <Header handleClick={ this.handleClick } />
+          <Header handleClick={ this.handleClick } handleInputChange={ this.handleInputChange }/>
           <Link data-testid="shopping-cart-button" to="/Cart">
             <img
               src={ Img }
@@ -58,7 +63,9 @@ export default class Home extends React.Component {
             />
           </Link>
         </div>
-        <Categories handleCategorySelect={ this.handleCategorySelect } />
+        <Categories handleCategorySelect={ this.handleCategorySelect } 
+        handleClick={ this.handleClick }
+        />
         { results.length > 0 ? this.toRender() : this.message()}
       </>
     );
