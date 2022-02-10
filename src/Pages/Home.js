@@ -17,12 +17,13 @@ export default class Home extends React.Component {
     this.setState({ inputValue: event.target.value });
   }
 
-  handleClick = async (event) => {    
+  handleClick = async (event) => {
     if (event && event.target.button) {
       event.preventDefault();
     }
     const { currentCategoryId, inputValue } = this.state;
-    const products = await api.getProductsFromCategoryAndQuery(currentCategoryId, inputValue);
+    const products = await api
+      .getProductsFromCategoryAndQuery(currentCategoryId, inputValue);
     this.setState({
       results: products.results,
     });
@@ -30,7 +31,8 @@ export default class Home extends React.Component {
 
   handleCategorySelect = (event) => {
     const selectedCategoryId = event.target.id;
-    this.setState({currentCategoryId: selectedCategoryId}, (event) => this.handleClick(event));
+    this.setState({ currentCategoryId: selectedCategoryId },
+      () => this.handleClick(event));
   }
 
   toRender = () => {
@@ -50,11 +52,14 @@ export default class Home extends React.Component {
     </h3>)
 
   render() {
-    const { results, currentCategoryId, inputValue } = this.state;
+    const { results } = this.state;
     return (
       <>
         <div>
-          <Header handleClick={ this.handleClick } handleInputChange={ this.handleInputChange }/>
+          <Header
+            handleClick={ this.handleClick }
+            handleInputChange={ this.handleInputChange }
+          />
           <Link data-testid="shopping-cart-button" to="/Cart">
             <img
               src={ Img }
@@ -63,8 +68,9 @@ export default class Home extends React.Component {
             />
           </Link>
         </div>
-        <Categories handleCategorySelect={ this.handleCategorySelect } 
-        handleClick={ this.handleClick }
+        <Categories
+          handleCategorySelect={ this.handleCategorySelect }
+          handleClick={ this.handleClick }
         />
         { results.length > 0 ? this.toRender() : this.message()}
       </>

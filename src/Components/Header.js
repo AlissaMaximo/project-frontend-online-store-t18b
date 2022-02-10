@@ -24,7 +24,7 @@ export default class Header extends React.Component {
           onChange={ handleInputChange }
           data-testid="query-input"
         />
-        <button type="submit" id="button" data-testid="query-button" >
+        <button type="submit" id="button" data-testid="query-button">
           pesquisar
         </button>
       </form>
@@ -33,4 +33,5 @@ export default class Header extends React.Component {
 }
 Header.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
 };
