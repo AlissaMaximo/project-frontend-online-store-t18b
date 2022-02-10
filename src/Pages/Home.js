@@ -29,10 +29,10 @@ export default class Home extends React.Component {
     });
   }
 
-  handleCategorySelect = (event) => {
-    const selectedCategoryId = event.target.id;
+  handleCategorySelect = ({ target }) => {
+    const selectedCategoryId = target.id;
     this.setState({ currentCategoryId: selectedCategoryId },
-      () => this.handleClick(event));
+      (event) => this.handleClick(event));
   }
 
   toRender = () => {
