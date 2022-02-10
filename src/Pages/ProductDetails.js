@@ -23,7 +23,6 @@ export default class ProductDetails extends React.Component {
 
   createDetailsList = () => {
     const { product: { attributes } } = this.state;
-    console.log(attributes);
     return attributes.map((attribute) => (
       <li key={ attribute.id }>{`${attribute.name}: ${attribute.value_name}`}</li>
     ));

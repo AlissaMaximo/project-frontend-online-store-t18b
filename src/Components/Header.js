@@ -3,22 +3,11 @@ import PropTypes from 'prop-types';
 import CartLink from './CartLink';
 
 export default class Header extends React.Component {
-  state={
-    input: '',
-  }
-
-  /* handleChange = ({ target }) => {
-    this.setState({
-      input: target.value,
-    });
-  } */
-
   render() {
     const { handleClick, handleInputChange } = this.props;
-    const { input } = this.state;
     return (
       <>
-        <form onSubmit={ (event) => handleClick(event, input) }>
+        <form onSubmit={ (event) => handleClick(event) }>
           <input
             type="text"
             placeholder="Digite sua busca aqui"
