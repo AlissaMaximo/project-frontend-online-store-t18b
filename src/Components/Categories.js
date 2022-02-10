@@ -52,5 +52,5 @@ export default class Categories extends React.Component {
 }
 
 Categories.propTypes = {
-  handleCategorySelect: PropTypes.function.isRequired,
+  handleCategorySelect: PropTypes.func.isRequired,
 }.isRequired;
