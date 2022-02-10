@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Img from '../logo.png';
 import Categories from '../Components/Categories';
 import Header from '../Components/Header';
 import * as api from '../services/api';
@@ -60,13 +58,6 @@ export default class Home extends React.Component {
             handleClick={ this.handleClick }
             handleInputChange={ this.handleInputChange }
           />
-          <Link data-testid="shopping-cart-button" to="/Cart">
-            <img
-              src={ Img }
-              alt="cart logo"
-              height="30px"
-            />
-          </Link>
         </div>
         <Categories
           handleCategorySelect={ this.handleCategorySelect }
