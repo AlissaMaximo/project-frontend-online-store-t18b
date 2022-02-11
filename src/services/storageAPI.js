@@ -1,5 +1,5 @@
 const CART_ITENS = 'cart_itens';
-
+// inicia o storage das avaliações com um array vazio
 if (!JSON.parse(localStorage.getItem(CART_ITENS))) {
   localStorage.setItem(CART_ITENS, JSON.stringify([]));
 }
@@ -26,4 +26,20 @@ export const addCartIten = (cartData) => {
   } else if (cartData) {
     saveCartIten([...cartItens, cartData]);
   }
+};
+// funções para salvar e pegar as avaliações no localStorage
+// - cria local storage vazio
+if (!JSON.parse(localStorage.getItem('avaliations'))) {
+  localStorage.setItem('avaliations', JSON.stringify([]));
+}
+const saveAvaliation = (avaliation) => localStorage
+  .setItem('avaliations', JSON.stringify(avaliation));
+
+export const addAvaliation = (avaliation) => {
+  const savedComents = JSON.parse(localStorage.getItem('avaliations'));
+  saveAvaliation([...savedComents, avaliation]);
+};
+export const getAvaliations = () => {
+  const avaliations = JSON.parse(localStorage.getItem('avaliations'));
+  return avaliations;
 };

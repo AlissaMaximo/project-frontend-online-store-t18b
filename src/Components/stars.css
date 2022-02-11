@@ -1,0 +1,11 @@
+/* css para mudar o check p estrela ainda não finalizado
+ .stars-div label {
+  display: block;
+}
+.stars-div input {
+  display: none;
+}
+
+.selected {
+  background-color: yellow;
+} */
