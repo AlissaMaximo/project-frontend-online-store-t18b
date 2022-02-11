@@ -14,7 +14,7 @@ export default class Product extends React.Component {
     const product = cartItens.find((iten) => iten.id === id);
 
     if (product) {
-      this.setState({ itemQuantity: product.quantity }); 
+      this.setState({ itemQuantity: product.quantity });
     }
   }
 
