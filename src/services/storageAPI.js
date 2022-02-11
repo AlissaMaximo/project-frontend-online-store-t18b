@@ -10,9 +10,9 @@ const saveCartIten = (CartIten) => localStorage
 
 export const getCartIten = () => readCartIten();
 
-export const removeCartIten = (cartItem) => {
+export const removeCartIten = (itemId) => {
   const cartItens = readCartIten();
-  saveCartIten(cartItens.filter((s) => s.id !== cartItem.id));
+  saveCartIten(cartItens.filter(({ id }) => id !== itemId));
 };
 
 export const addCartIten = (cartData) => {
@@ -21,7 +21,7 @@ export const addCartIten = (cartData) => {
   const check = cartItens.some((iten) => iten.id === cartData.id);
 
   if (check) {
-    const newSavedItens = (cartItens.filter((s) => s.id !== cartData.id));
+    const newSavedItens = (cartItens.filter(({ id }) => id !== cartData.id));
     saveCartIten([...newSavedItens, cartData]);
   } else if (cartData) {
     saveCartIten([...cartItens, cartData]);
