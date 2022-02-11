@@ -58,7 +58,7 @@ handleCartSize = () => {
           <Product
             key={ product.id }
             product={ product }
-            handleCartSize={ this.handleCartSize } 
+            handleCartSize={ this.handleCartSize }
           />
         ))}
       </section>
