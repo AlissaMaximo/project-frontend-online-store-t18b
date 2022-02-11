@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getCartIten, removeCartIten, addCartIten } from '../services/storageAPI';
 
+// O cart Item foi criado, para passar como filho para o Cart.
 class CartItem extends Component {
   state = {
     itemQuantity: 0,
@@ -17,24 +18,32 @@ class CartItem extends Component {
     }
   }
 
+  // Continuação da explicação da ***CART*** Aqui!!
+  // Pego a função que veio como props, passo como segundo parametro na função que
+  // Incrementa, Decrementa e exclui, para mudar ao vivasso o state do pai;
   handleQuantityIncrease = () => {
-    this.setState((previous) => ({ itemQuantity: previous.itemQuantity + 1 }));
+    const { amountItens } = this.props;
+    this.setState((previous) => ({ itemQuantity: previous.itemQuantity + 1 }),
+      () => amountItens());
   }
 
   handleQuantityDecrease = (id) => {
     const { itemQuantity } = this.state;
+    const { amountItens } = this.props;
     if (itemQuantity > 1) {
-      this.setState((previous) => ({ itemQuantity: previous.itemQuantity - 1 }));
+      this.setState((previous) => ({ itemQuantity: previous.itemQuantity - 1 }),
+        () => amountItens());
     } else {
       this.removeIten(id);
     }
   }
 
   removeIten = (id) => {
-    const { attProducts } = this.props;
+    const { attProducts, amountItens } = this.props;
     removeCartIten(id);
     const cartItensData = getCartIten();
     attProducts(cartItensData);
+    amountItens();
   }
 
   render() {
@@ -107,6 +116,7 @@ CartItem.propTypes = {
   thumbnail: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   attProducts: PropTypes.func.isRequired,
+  amountItens: PropTypes.func.isRequired,
 };
 
 export default CartItem;

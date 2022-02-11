@@ -21,16 +21,24 @@ export default class Cart extends React.Component {
   showCartItens = () => {
     const cartItensData = getCartIten();
     return cartItensData.map((item) => (
-      <CartItem key={ item.id } { ...item } attProducts={ this.attProducts } />
+      <CartItem
+        key={ item.id }
+        { ...item }
+        attProducts={ this.attProducts }
+        amountItens={ this.amountItens }
+      />
     ));
   }
 
+  // Aqui Eu utilizo um map para pegar todos os valores(Não só o reduce, por vim tudo como objeto).
+  // O reduce vem depois como uma forma de somar os valores, depois jogo lá no amount do state para fazer a soma.
+  // Passo essa função como props
+  // resto da Explicação Compenent Cart item;
   amountItens = () => {
     const cartItensData = getCartIten();
     if (cartItensData.length > 0) {
       const amount = cartItensData.map(({ price, quantity }) => price * quantity)
         .reduce((acc, item) => acc + item).toFixed(2);
-      console.log(amount);
       this.setState({ amount });
     }
   }
