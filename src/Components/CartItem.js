@@ -83,6 +83,7 @@ class CartItem extends Component {
               data-testid="product-decrease-quantity"
               onClick={ () => {
                 addCartIten({
+                  availableQuantity,
                   title,
                   price,
                   thumbnail,
@@ -102,6 +103,7 @@ class CartItem extends Component {
               disabled={ this.handleDisabled() }
               onClick={ () => {
                 addCartIten({
+                  availableQuantity,
                   title,
                   price,
                   thumbnail,
