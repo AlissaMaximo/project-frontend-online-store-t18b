@@ -5,7 +5,6 @@ import { getCartIten, removeCartIten, addCartIten } from '../services/storageAPI
 class CartItem extends Component {
   state = {
     itemQuantity: 0,
-    cartItensData: [],
   }
 
   componentDidMount() {
@@ -42,7 +41,7 @@ class CartItem extends Component {
     const { id, thumbnail, price, title } = this.props;
     const { itemQuantity } = this.state;
     return (
-      <div key={ id } className="containerCart">
+      <div key={ id } className="containerProducts">
         {/* Pô irmão, botões de adicionar e remover produtos */}
         <div className="title-quantity">
           <button
