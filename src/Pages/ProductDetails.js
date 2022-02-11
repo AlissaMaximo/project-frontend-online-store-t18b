@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CartLink from '../Components/CartLink';
 import * as api from '../services/api';
 import { addCartIten, getCartIten } from '../services/storageAPI';
+import Avaliations from '../Components/Avaliations';
 
 export default class ProductDetails extends React.Component {
   state = {
@@ -83,6 +84,8 @@ export default class ProductDetails extends React.Component {
             </button>
           </div>
         </section>
+        Avaliações
+        <Avaliations />
       </>
     );
   }
