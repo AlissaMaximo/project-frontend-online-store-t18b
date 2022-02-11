@@ -9,10 +9,12 @@ export default class ProductDetails extends React.Component {
   state = {
     loading: true,
     itemQuantity: 0,
+    cartSize: 0,
   }
 
   componentDidMount() {
     this.handleProduct();
+    this.handleCartSize();
 
     const { match: { params: { productid } } } = this.props;
     const cartItens = getCartIten();
@@ -25,6 +27,17 @@ export default class ProductDetails extends React.Component {
 
   handleProductQuantity = () => {
     this.setState((previous) => ({ itemQuantity: previous.itemQuantity + 1 }));
+    this.handleCartSize();
+  }
+
+  // função que pega no localStorage a quantidade total de produtos e atualiza o state
+  handleCartSize = () => {
+    const cart = getCartIten();
+    const quantitys = cart.map((item) => item.quantity);
+    const cartSize = quantitys.reduce((acc, valorAtural) => acc + valorAtural, 0);
+    this.setState({
+      cartSize,
+    });
   }
 
   handleProduct = async () => {
@@ -44,12 +57,14 @@ export default class ProductDetails extends React.Component {
   }
 
   toRender = () => {
-    const { product: { title, price, thumbnail, id }, itemQuantity } = this.state;
+    const { product: {
+      title,
+      price,
+      thumbnail,
+      id,
+    }, itemQuantity } = this.state;
     return (
       <>
-        <div className="details-page-header">
-          <CartLink />
-        </div>
         <section className="details-section">
           <h3 data-testid="product-detail-name">{title}</h3>
           <h4>{price}</h4>
@@ -95,9 +110,15 @@ export default class ProductDetails extends React.Component {
   )
 
   render() {
-    const { loading } = this.state;
+    const { loading, cartSize } = this.state;
     return (
       <div className="details-page">
+        <div className="details-page-header">
+          <CartLink cartSize={ cartSize } />
+          <div data-testid="shopping-cart-size">
+            {cartSize}
+          </div>
+        </div>
         {loading ? this.message() : this.toRender() }
       </div>
     );
