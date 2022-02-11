@@ -5,7 +5,11 @@ import Img from '../logo.png';
 export default class CartLink extends React.Component {
   render() {
     return (
-      <Link data-testid="shopping-cart-button" to="/Cart">
+      <Link
+        data-testid="shopping-cart-button"
+        to="/Cart"
+        className="image-cart"
+      >
         <img
           src={ Img }
           alt="cart logo"

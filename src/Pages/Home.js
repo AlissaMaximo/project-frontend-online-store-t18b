@@ -1,5 +1,4 @@
 import React from 'react';
-import Categories from '../Components/Categories';
 import Header from '../Components/Header';
 import * as api from '../services/api';
 import Product from '../Components/Product';
@@ -57,12 +56,9 @@ export default class Home extends React.Component {
           <Header
             handleClick={ this.handleClick }
             handleInputChange={ this.handleInputChange }
+            handleCategorySelect={ this.handleCategorySelect }
           />
         </div>
-        <Categories
-          handleCategorySelect={ this.handleCategorySelect }
-          handleClick={ this.handleClick }
-        />
         { results.length > 0 ? this.toRender() : this.message()}
       </>
     );
