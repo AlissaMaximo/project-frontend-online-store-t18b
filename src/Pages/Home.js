@@ -3,13 +3,29 @@ import Categories from '../Components/Categories';
 import Header from '../Components/Header';
 import * as api from '../services/api';
 import Product from '../Components/Product';
+import { getCartIten } from '../services/storageAPI';
 
 export default class Home extends React.Component {
   state = {
     results: [],
     currentCategoryId: '',
     inputValue: '',
+    cartSize: 0,
   }
+
+  componentDidMount() {
+    this.handleCartSize();
+  }
+
+// função que pega no localStorage a quantidade total de produtos e atualiza o state
+handleCartSize = () => {
+  const cart = getCartIten();
+  const quantitys = cart.map((item) => item.quantity);
+  const cartSize = quantitys.reduce((acc, valorAtural) => acc + valorAtural, 0);
+  this.setState({
+    cartSize,
+  });
+}
 
   handleInputChange = (event) => {
     this.setState({ inputValue: event.target.value });
@@ -25,6 +41,7 @@ export default class Home extends React.Component {
     this.setState({
       results: products.results,
     });
+    this.handleCartSize();
   }
 
   handleCategorySelect = ({ target }) => {
@@ -38,7 +55,11 @@ export default class Home extends React.Component {
     return (
       <section className="product-section">
         {results.map((product) => (
-          <Product key={ product.id } product={ product } />
+          <Product
+            key={ product.id }
+            product={ product }
+            handleCartSize={ this.handleCartSize }
+          />
         ))}
       </section>
     );
@@ -50,7 +71,7 @@ export default class Home extends React.Component {
     </h3>)
 
   render() {
-    const { results } = this.state;
+    const { results, cartSize } = this.state;
     return (
       <>
         <div>
@@ -58,6 +79,9 @@ export default class Home extends React.Component {
             handleClick={ this.handleClick }
             handleInputChange={ this.handleInputChange }
           />
+          <div data-testid="shopping-cart-size">
+            {cartSize}
+          </div>
         </div>
         <Categories
           handleCategorySelect={ this.handleCategorySelect }
