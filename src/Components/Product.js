@@ -12,19 +12,25 @@ export default class Product extends React.Component {
     const { product: { id } } = this.props;
     const cartItens = getCartIten();
     const product = cartItens.find((iten) => iten.id === id);
-
     if (product) {
       this.setState({ itemQuantity: product.quantity });
     }
   }
 
   handleProductQuantity = () => {
-    this.setState((previous) => ({ itemQuantity: previous.itemQuantity + 1 }));
+    this.setState((previous) => ({
+      itemQuantity: previous.itemQuantity + 1,
+    }));
   }
 
   render() {
     // passar uma função que atualiza o estado, mas que esta no pai , mesmo que seja chamanda só no filho ela atualiza o estado do pai (handleCartSize)
-    const { product: { price, thumbnail, title, id }, handleCartSize } = this.props;
+    const { product: { price,
+      thumbnail,
+      title,
+      id,
+      available_quantity: availableQuantity,
+    }, handleCartSize } = this.props;
     const { itemQuantity } = this.state;
     return (
       <div
@@ -45,6 +51,7 @@ export default class Product extends React.Component {
               price,
               thumbnail,
               id,
+              availableQuantity,
               quantity: itemQuantity + 1 });
             this.handleProductQuantity();
             handleCartSize();
@@ -62,6 +69,7 @@ Product.propTypes = {
     thumbnail: PropTypes.string,
     title: PropTypes.string,
     id: PropTypes.string,
+    available_quantity: PropTypes.number,
   }).isRequired,
   handleCartSize: PropTypes.func.isRequired,
 };
