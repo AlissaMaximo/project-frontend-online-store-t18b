@@ -23,6 +23,7 @@ export default class Categories extends React.Component {
       <details>
         <summary>Categorias:</summary>
         <label htmlFor="all">
+          Todos
           <input
             name="categorie"
             type="radio"
