@@ -35,12 +35,13 @@ export default class Product extends React.Component {
 
   render() {
     // passar uma função que atualiza o estado, mas que esta no pai , mesmo que seja chamanda só no filho ela atualiza o estado do pai (handleCartSize)
-    const { product: { price,
-      thumbnail,
-      title,
-      id,
-      available_quantity: availableQuantity,
-    }, handleCartSize } = this.props;
+    const {
+      product: { price,
+        thumbnail,
+        title,
+        id,
+        available_quantity: availableQuantity }, handleCartSize,
+    } = this.props;
     const { itemQuantity } = this.state;
     return (
       <div
