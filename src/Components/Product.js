@@ -13,14 +13,15 @@ export default class Product extends React.Component {
     const cartItens = getCartIten();
     const product = cartItens.find((iten) => iten.id === id);
     this.ifShippingFree();
-
     if (product) {
       this.setState({ itemQuantity: product.quantity });
     }
   }
 
   handleProductQuantity = () => {
-    this.setState((previous) => ({ itemQuantity: previous.itemQuantity + 1 }));
+    this.setState((previous) => ({
+      itemQuantity: previous.itemQuantity + 1,
+    }));
   }
 
   ifShippingFree = () => {

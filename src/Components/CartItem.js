@@ -58,7 +58,8 @@ class CartItem extends Component {
 
   render() {
     const { id,
-      thumbnail, price, title, available_quantity: availableQuantity } = this.props;
+      thumbnail, price, title, hasButton,
+      available_quantity: availableQuantity } = this.props;
     const { itemQuantity } = this.state;
     return (
       <div key={ id } className="containerProducts">
@@ -78,44 +79,50 @@ class CartItem extends Component {
           <p>{price}</p>
           {/* Pô irmão, botões de adicionar e remover unidade/quantidade */}
           <div className="container-quantity-button">
-            <button
-              type="button"
-              data-testid="product-decrease-quantity"
-              onClick={ () => {
-                addCartIten({
-                  availableQuantity,
-                  title,
-                  price,
-                  thumbnail,
-                  id,
-                  quantity: itemQuantity - 1,
-                });
-                this.handleQuantityDecrease(id);
-              } }
-            >
-              -
+            {hasButton && (
+              <button
+                type="button"
+                data-testid="product-decrease-quantity"
+                onClick={ () => {
+                  addCartIten({
+                    availableQuantity,
+                    title,
+                    price,
+                    thumbnail,
+                    id,
+                    quantity: itemQuantity - 1,
+                  });
+                  this.handleQuantityDecrease(id);
+                } }
+              >
+                -
 
-            </button>
-            <div data-testid="shopping-cart-product-quantity">{itemQuantity}</div>
-            <button
-              type="button"
-              data-testid="product-increase-quantity"
-              disabled={ this.handleDisabled() }
-              onClick={ () => {
-                addCartIten({
-                  availableQuantity,
-                  title,
-                  price,
-                  thumbnail,
-                  id,
-                  quantity: itemQuantity + 1,
-                });
-                this.handleQuantityIncrease();
-              } }
-            >
-              +
+              </button>
+            )}
+            <div data-testid="shopping-cart-product-quantity">
+              {itemQuantity}
+            </div>
+            {hasButton && (
+              <button
+                type="button"
+                data-testid="product-increase-quantity"
+                disabled={ this.handleDisabled() }
+                onClick={ () => {
+                  addCartIten({
+                    availableQuantity,
+                    title,
+                    price,
+                    thumbnail,
+                    id,
+                    quantity: itemQuantity + 1,
+                  });
+                  this.handleQuantityIncrease();
+                } }
+              >
+                +
 
-            </button>
+              </button>
+            )}
           </div>
         </div>
         <hr />
@@ -132,6 +139,7 @@ CartItem.propTypes = {
   attProducts: PropTypes.func.isRequired,
   amountItens: PropTypes.func.isRequired,
   available_quantity: PropTypes.number.isRequired,
+  hasButton: PropTypes.bool.isRequired,
 };
 
 export default CartItem;
