@@ -62,6 +62,7 @@ export default class ProductDetails extends React.Component {
       price,
       thumbnail,
       id,
+      available_quantity: availableQuantity,
     }, itemQuantity } = this.state;
     return (
       <>
@@ -91,6 +92,7 @@ export default class ProductDetails extends React.Component {
                   price,
                   thumbnail,
                   id,
+                  availableQuantity,
                   quantity: itemQuantity + 1 });
                 this.handleProductQuantity();
               } }
