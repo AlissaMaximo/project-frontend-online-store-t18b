@@ -38,7 +38,11 @@ export default class Home extends React.Component {
     return (
       <section className="product-section">
         {results.map((product) => (
-          <Product key={ product.id } product={ product } />
+          <Product
+            key={ product.id }
+            product={ product }
+            shipping={ product.shipping.free_shipping }
+          />
         ))}
       </section>
     );
@@ -63,7 +67,7 @@ export default class Home extends React.Component {
           handleCategorySelect={ this.handleCategorySelect }
           handleClick={ this.handleClick }
         />
-        { results.length > 0 ? this.toRender() : this.message()}
+        {results.length > 0 ? this.toRender() : this.message()}
       </>
     );
   }
