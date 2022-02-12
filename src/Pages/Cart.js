@@ -27,7 +27,6 @@ export default class Cart extends React.Component {
         available_quantity={ item.availableQuantity }
         key={ item.id }
         { ...item }
-        available_quantity={ item.availableQuantity }
         attProducts={ this.attProducts }
         amountItens={ this.amountItens }
         hasButton
