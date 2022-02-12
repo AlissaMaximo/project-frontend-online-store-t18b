@@ -23,7 +23,6 @@ export default class Buy extends Component {
 
   handleInput = ({ target }) => {
     if (target.type !== 'submit') {
-      console.log('foi');
       this.setState({ [target.name]: target.value });
     }
   };
@@ -92,7 +91,7 @@ export default class Buy extends Component {
               data-testid="checkout-fullname"
             />
             <input
-              type="number"
+              type="text"
               placeholder="CPF"
               value={ CPF }
               name="CPF"
@@ -113,7 +112,7 @@ export default class Buy extends Component {
               data-testid="checkout-phone"
             />
             <input
-              type="number"
+              type="text"
               placeholder="CEP"
               value={ CEP }
               name="CEP"
@@ -137,7 +136,6 @@ export default class Buy extends Component {
               placeholder="Número"
               value={ Numero }
               name="Numero"
-              data-testid="checkout-phone"
             />
             <input
               type="text"
