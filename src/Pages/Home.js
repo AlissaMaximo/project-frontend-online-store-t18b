@@ -57,6 +57,7 @@ handleCartSize = () => {
           <Product
             key={ product.id }
             product={ product }
+            shipping={ product.shipping.free_shipping }
             handleCartSize={ this.handleCartSize }
           />
         ))}
@@ -83,7 +84,12 @@ handleCartSize = () => {
             {cartSize}
           </div>
         </div>
-        { results.length > 0 ? this.toRender() : this.message()}
+        <Categories
+          handleCategorySelect={ this.handleCategorySelect }
+          handleClick={ this.handleClick }
+        />
+        {results.length > 0 ? this.toRender() : this.message()}
+
       </>
     );
   }

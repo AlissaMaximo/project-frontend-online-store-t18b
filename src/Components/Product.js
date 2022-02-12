@@ -12,6 +12,7 @@ export default class Product extends React.Component {
     const { product: { id } } = this.props;
     const cartItens = getCartIten();
     const product = cartItens.find((iten) => iten.id === id);
+    this.ifShippingFree();
 
     if (product) {
       this.setState({ itemQuantity: product.quantity });
@@ -20,6 +21,15 @@ export default class Product extends React.Component {
 
   handleProductQuantity = () => {
     this.setState((previous) => ({ itemQuantity: previous.itemQuantity + 1 }));
+  }
+
+  ifShippingFree = () => {
+    const { shipping } = this.props;
+    if (shipping) {
+      return (
+        <p data-testid="free-shipping">Frete Grátis</p>
+      );
+    } return (<p>Sem Frete Grátis</p>);
   }
 
   render() {
@@ -34,6 +44,7 @@ export default class Product extends React.Component {
         <Link to={ `/productDetails/${id}` } data-testid="product-detail-link">
           {title}
         </Link>
+        {this.ifShippingFree()}
         <img src={ thumbnail } alt="imagem do produto" />
         <p>{price}</p>
         <button
@@ -63,5 +74,6 @@ Product.propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,
   }).isRequired,
+  shipping: PropTypes.bool.isRequired,
   handleCartSize: PropTypes.func.isRequired,
 };
