@@ -1,15 +1,30 @@
 import React from 'react';
-import Categories from '../Components/Categories';
 import Header from '../Components/Header';
 import * as api from '../services/api';
 import Product from '../Components/Product';
+import { getCartIten } from '../services/storageAPI';
 
 export default class Home extends React.Component {
   state = {
     results: [],
     currentCategoryId: '',
     inputValue: '',
+    cartSize: 0,
   }
+
+  componentDidMount() {
+    this.handleCartSize();
+  }
+
+// função que pega no localStorage a quantidade total de produtos e atualiza o state
+handleCartSize = () => {
+  const cart = getCartIten();
+  const quantitys = cart.map((item) => item.quantity);
+  const cartSize = quantitys.reduce((acc, valorAtural) => acc + valorAtural, 0);
+  this.setState({
+    cartSize,
+  });
+}
 
   handleInputChange = (event) => {
     this.setState({ inputValue: event.target.value });
@@ -25,6 +40,7 @@ export default class Home extends React.Component {
     this.setState({
       results: products.results,
     });
+    this.handleCartSize();
   }
 
   handleCategorySelect = ({ target }) => {
@@ -42,6 +58,7 @@ export default class Home extends React.Component {
             key={ product.id }
             product={ product }
             shipping={ product.shipping.free_shipping }
+            handleCartSize={ this.handleCartSize }
           />
         ))}
       </section>
@@ -54,20 +71,25 @@ export default class Home extends React.Component {
     </h3>)
 
   render() {
-    const { results } = this.state;
+    const { results, cartSize } = this.state;
     return (
       <>
         <div>
           <Header
             handleClick={ this.handleClick }
             handleInputChange={ this.handleInputChange }
+            handleCategorySelect={ this.handleCategorySelect }
           />
+          <div data-testid="shopping-cart-size">
+            {cartSize}
+          </div>
         </div>
         <Categories
           handleCategorySelect={ this.handleCategorySelect }
           handleClick={ this.handleClick }
         />
         {results.length > 0 ? this.toRender() : this.message()}
+
       </>
     );
   }
