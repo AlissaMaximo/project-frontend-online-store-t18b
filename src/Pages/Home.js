@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../Components/Header';
 import * as api from '../services/api';
 import Product from '../Components/Product';
-import Categories from '../Components/Categories';
 import { getCartIten } from '../services/storageAPI';
 
 export default class Home extends React.Component {
