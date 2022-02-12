@@ -1,8 +1,8 @@
 import React from 'react';
-import Categories from '../Components/Categories';
 import Header from '../Components/Header';
 import * as api from '../services/api';
 import Product from '../Components/Product';
+import Categories from '../Components/Categories';
 import { getCartIten } from '../services/storageAPI';
 
 export default class Home extends React.Component {
@@ -58,6 +58,7 @@ handleCartSize = () => {
           <Product
             key={ product.id }
             product={ product }
+            shipping={ product.shipping.free_shipping }
             handleCartSize={ this.handleCartSize }
           />
         ))}
@@ -78,16 +79,14 @@ handleCartSize = () => {
           <Header
             handleClick={ this.handleClick }
             handleInputChange={ this.handleInputChange }
+            handleCategorySelect={ this.handleCategorySelect }
           />
           <div data-testid="shopping-cart-size">
             {cartSize}
           </div>
         </div>
-        <Categories
-          handleCategorySelect={ this.handleCategorySelect }
-          handleClick={ this.handleClick }
-        />
-        { results.length > 0 ? this.toRender() : this.message()}
+        {results.length > 0 ? this.toRender() : this.message()}
+
       </>
     );
   }
