@@ -16,10 +16,20 @@ class CartItem extends Component {
     const { id } = this.props;
     const cartItens = getCartIten();
     const product = cartItens.find((iten) => iten.id === id);
-
     if (product) {
-      this.setState({ itemQuantity: product.quantity });
+      this.setState({
+        itemQuantity: product.quantity,
+        maxQuantity: product.availableQuantity,
+      });
     }
+  }
+
+  handleDisabled = () => {
+    const { itemQuantity, maxQuantity } = this.state;
+    if (itemQuantity >= maxQuantity) {
+      return true;
+    }
+    return false;
   }
 
   // Continuação da explicação da ***CART*** Aqui!!
@@ -55,7 +65,10 @@ class CartItem extends Component {
   };
 
   render() {
-    const { id, thumbnail, price, title, hasButton } = this.props;
+    const { id,
+      thumbnail, price, title, hasButton,
+      available_quantity: availableQuantity } = this.props;
+
     const { itemQuantity } = this.state;
 
     return (
@@ -80,6 +93,7 @@ class CartItem extends Component {
                 data-testid="product-decrease-quantity"
                 onClick={ () => {
                   addCartIten({
+                    availableQuantity,
                     title,
                     price,
                     thumbnail,
@@ -90,6 +104,7 @@ class CartItem extends Component {
                 } }
               >
                 -
+
               </button>
             )}
             <div data-testid="shopping-cart-product-quantity">
@@ -99,8 +114,10 @@ class CartItem extends Component {
               <button
                 type="button"
                 data-testid="product-increase-quantity"
+                disabled={ this.handleDisabled() }
                 onClick={ () => {
                   addCartIten({
+                    availableQuantity,
                     title,
                     price,
                     thumbnail,
@@ -111,8 +128,10 @@ class CartItem extends Component {
                 } }
               >
                 +
+
               </button>
             )}
+
           </div>
         </div>
         <hr />
@@ -128,6 +147,7 @@ CartItem.propTypes = {
   title: PropTypes.string.isRequired,
   attProducts: PropTypes.func.isRequired,
   amountItens: PropTypes.func.isRequired,
+  available_quantity: PropTypes.number.isRequired,
   hasButton: PropTypes.bool.isRequired,
 };
 

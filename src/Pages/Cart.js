@@ -24,6 +24,7 @@ export default class Cart extends React.Component {
     const cartItensData = getCartIten();
     return cartItensData.map((item) => (
       <CartItem
+        available_quantity={ item.availableQuantity }
         key={ item.id }
         { ...item }
         attProducts={ this.attProducts }
