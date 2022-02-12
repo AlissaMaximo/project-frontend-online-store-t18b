@@ -1,5 +1,4 @@
 import React from 'react';
-import Categories from '../Components/Categories';
 import Header from '../Components/Header';
 import * as api from '../services/api';
 import Product from '../Components/Product';
@@ -78,15 +77,12 @@ handleCartSize = () => {
           <Header
             handleClick={ this.handleClick }
             handleInputChange={ this.handleInputChange }
+            handleCategorySelect={ this.handleCategorySelect }
           />
           <div data-testid="shopping-cart-size">
             {cartSize}
           </div>
         </div>
-        <Categories
-          handleCategorySelect={ this.handleCategorySelect }
-          handleClick={ this.handleClick }
-        />
         { results.length > 0 ? this.toRender() : this.message()}
       </>
     );
