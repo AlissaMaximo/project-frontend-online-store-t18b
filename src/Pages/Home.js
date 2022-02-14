@@ -52,16 +52,19 @@ handleCartSize = () => {
   toRender = () => {
     const { results } = this.state;
     return (
-      <section className="product-section">
-        {results.map((product) => (
-          <Product
-            key={ product.id }
-            product={ product }
-            shipping={ product.shipping.free_shipping }
-            handleCartSize={ this.handleCartSize }
-          />
-        ))}
-      </section>
+      <main className="main-container">
+        <h2>Alguns Produtos Que você pode se Interessar:</h2>
+        <section className="product-section">
+          {results.map((product) => (
+            <Product
+              key={ product.id }
+              product={ product }
+              shipping={ product.shipping.free_shipping }
+              handleCartSize={ this.handleCartSize }
+            />
+          ))}
+        </section>
+      </main>
     );
   }
 
