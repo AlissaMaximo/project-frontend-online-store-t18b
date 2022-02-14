@@ -10,60 +10,87 @@ export default class ProductDetails extends React.Component {
     loading: true,
     itemQuantity: 0,
     cartSize: 0,
-  }
+    availableQuantity: 0,
+  };
 
   componentDidMount() {
     this.handleProduct();
     this.handleCartSize();
 
-    const { match: { params: { productid } } } = this.props;
+    const {
+      match: {
+        params: { productid },
+      },
+    } = this.props;
     const cartItens = getCartIten();
     const product = cartItens.find((iten) => iten.id === productid);
 
     if (product) {
       this.setState({ itemQuantity: product.quantity });
     }
+    const {
+      location: {
+        state: { availableQuantity },
+      },
+    } = this.props;
+    this.setState({ availableQuantity });
   }
 
   handleProductQuantity = () => {
     this.setState((previous) => ({ itemQuantity: previous.itemQuantity + 1 }));
     this.handleCartSize();
-  }
+  };
 
   // função que pega no localStorage a quantidade total de produtos e atualiza o state
   handleCartSize = () => {
     const cart = getCartIten();
     const quantitys = cart.map((item) => item.quantity);
-    const cartSize = quantitys.reduce((acc, valorAtural) => acc + valorAtural, 0);
+    const cartSize = quantitys.reduce(
+      (acc, valorAtural) => acc + valorAtural,
+      0,
+    );
     this.setState({
       cartSize,
     });
-  }
+  };
 
   handleProduct = async () => {
-    const { match: { params: { productid } } } = this.props;
+    const {
+      match: {
+        params: { productid },
+      },
+    } = this.props;
     const product = await api.getProductFromId(productid);
     this.setState({
       product,
       loading: false,
     });
-  }
+  };
 
   createDetailsList = () => {
-    const { product: { attributes } } = this.state;
+    const {
+      product: { attributes },
+    } = this.state;
     return attributes.map((attribute) => (
       <li key={ attribute.id }>{`${attribute.name}: ${attribute.value_name}`}</li>
     ));
-  }
+  };
+
+  handleDisabled = () => {
+    const { itemQuantity, availableQuantity } = this.state;
+    if (itemQuantity >= availableQuantity) {
+      return true;
+    }
+    return false;
+  };
 
   toRender = () => {
-    const { product: {
-      title,
-      price,
-      thumbnail,
-      id,
-      available_quantity: availableQuantity,
-    }, itemQuantity } = this.state;
+    const {
+      product: { title, price, thumbnail, id },
+      availableQuantity,
+      itemQuantity,
+    } = this.state;
+
     return (
       <>
         <section className="details-section">
@@ -75,17 +102,14 @@ export default class ProductDetails extends React.Component {
             alt="imagem do produto"
           />
           <div className="details-info">
-            <ol>
-              {this.createDetailsList()}
-            </ol>
+            <ol>{this.createDetailsList()}</ol>
           </div>
           <div className="container-quantity">
-            <p className="quantity">
-              {itemQuantity}
-            </p>
+            <p className="quantity">{itemQuantity}</p>
             <button
               data-testid="product-detail-add-to-cart"
               type="button"
+              disabled={ this.handleDisabled() }
               onClick={ () => {
                 addCartIten({
                   title,
@@ -93,7 +117,8 @@ export default class ProductDetails extends React.Component {
                   thumbnail,
                   id,
                   availableQuantity,
-                  quantity: itemQuantity + 1 });
+                  quantity: itemQuantity + 1,
+                });
                 this.handleProductQuantity();
               } }
             >
@@ -105,11 +130,9 @@ export default class ProductDetails extends React.Component {
         <Avaliations />
       </>
     );
-  }
+  };
 
-  message = () => (
-    <h3>Carregando...</h3>
-  )
+  message = () => <h3>Carregando...</h3>;
 
   render() {
     const { loading, cartSize } = this.state;
@@ -117,11 +140,9 @@ export default class ProductDetails extends React.Component {
       <div className="details-page">
         <div className="details-page-header">
           <CartLink cartSize={ cartSize } />
-          <div data-testid="shopping-cart-size">
-            {cartSize}
-          </div>
+          <div data-testid="shopping-cart-size">{cartSize}</div>
         </div>
-        {loading ? this.message() : this.toRender() }
+        {loading ? this.message() : this.toRender()}
       </div>
     );
   }
@@ -131,6 +152,11 @@ ProductDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       productid: PropTypes.string,
+    }),
+  }).isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      availableQuantity: PropTypes.number,
     }),
   }).isRequired,
 };

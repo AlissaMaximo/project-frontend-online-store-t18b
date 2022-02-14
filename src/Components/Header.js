@@ -7,7 +7,7 @@ import '../css/Header.css';
 
 export default class Header extends React.Component {
   render() {
-    const { handleClick, handleInputChange, handleCategorySelect } = this.props;
+    const { handleClick, handleInputChange, handleCategorySelect, cartSize } = this.props;
     return (
       <header className="container-header">
         <Link to="/" className="link-home">
@@ -31,7 +31,11 @@ export default class Header extends React.Component {
             </button>
           </form>
         </nav>
-        <CartLink />
+        <div data-testid="shopping-cart-size" className="cartLink">
+          <CartLink />
+          {cartSize}
+        </div>
+
       </header>
     );
   }
@@ -40,4 +44,5 @@ Header.propTypes = {
   handleClick: PropTypes.func.isRequired,
   handleInputChange: PropTypes.func.isRequired,
   handleCategorySelect: PropTypes.func.isRequired,
+  cartSize: PropTypes.number.isRequired,
 };

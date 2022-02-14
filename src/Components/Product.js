@@ -6,13 +6,17 @@ import { addCartIten, getCartIten } from '../services/storageAPI';
 export default class Product extends React.Component {
   state = {
     itemQuantity: 0,
-  }
+    maxQuantity: 0,
+  };
 
   componentDidMount() {
-    const { product: { id } } = this.props;
+    const {
+      product: { id, available_quantity: availableQuantity },
+    } = this.props;
     const cartItens = getCartIten();
     const product = cartItens.find((iten) => iten.id === id);
     this.ifShippingFree();
+    this.setState({ maxQuantity: availableQuantity });
     if (product) {
       this.setState({ itemQuantity: product.quantity });
     }
@@ -22,33 +26,45 @@ export default class Product extends React.Component {
     this.setState((previous) => ({
       itemQuantity: previous.itemQuantity + 1,
     }));
-  }
+  };
 
   ifShippingFree = () => {
     const { shipping } = this.props;
     if (shipping) {
-      return (
-        <p data-testid="free-shipping">Frete Grátis</p>
-      );
-    } return (<p>Sem Frete Grátis</p>);
-  }
+      return <p data-testid="free-shipping">Frete Grátis</p>;
+    }
+    return <p>Sem Frete Grátis</p>;
+  };
+
+  handleDisabled = () => {
+    const { itemQuantity, maxQuantity } = this.state;
+    if (itemQuantity >= maxQuantity) {
+      return true;
+    }
+    return false;
+  };
 
   render() {
     // passar uma função que atualiza o estado, mas que esta no pai , mesmo que seja chamanda só no filho ela atualiza o estado do pai (handleCartSize)
     const {
-      product: { price,
+      product: {
+        price,
         thumbnail,
         title,
         id,
-        available_quantity: availableQuantity }, handleCartSize,
+        available_quantity: availableQuantity,
+      },
+      handleCartSize,
     } = this.props;
     const { itemQuantity } = this.state;
     return (
-      <div
-        className="product"
-        data-testid="product"
-      >
-        <Link to={ `/productDetails/${id}` } data-testid="product-detail-link">
+      <div className="product" data-testid="product">
+        <Link
+          to={ { pathname: `/productDetails/${id}`,
+            state: { availableQuantity } } }
+          data-testid="product-detail-link"
+          availableQuantity={ availableQuantity }
+        >
           {title}
         </Link>
         {this.ifShippingFree()}
@@ -57,6 +73,7 @@ export default class Product extends React.Component {
         <button
           type="button"
           data-testid="product-add-to-cart"
+          disabled={ this.handleDisabled() }
           onClick={ () => {
             addCartIten({
               title,
@@ -64,7 +81,8 @@ export default class Product extends React.Component {
               thumbnail,
               id,
               availableQuantity,
-              quantity: itemQuantity + 1 });
+              quantity: itemQuantity + 1,
+            });
             this.handleProductQuantity();
             handleCartSize();
           } }

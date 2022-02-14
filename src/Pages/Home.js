@@ -79,10 +79,9 @@ handleCartSize = () => {
             handleClick={ this.handleClick }
             handleInputChange={ this.handleInputChange }
             handleCategorySelect={ this.handleCategorySelect }
+            cartSize={ cartSize }
           />
-          <div data-testid="shopping-cart-size">
-            {cartSize}
-          </div>
+
         </div>
         {results.length > 0 ? this.toRender() : this.message()}
 
