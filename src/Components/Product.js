@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { addCartIten, getCartIten } from '../services/storageAPI';
+import '../css/Product.css';
 
 export default class Product extends React.Component {
   state = {
@@ -59,17 +60,22 @@ export default class Product extends React.Component {
     const { itemQuantity } = this.state;
     return (
       <div className="product" data-testid="product">
+        <img src={ thumbnail } alt="imagem do produto" />
         <Link
-          to={ { pathname: `/productDetails/${id}`,
-            state: { availableQuantity } } }
+          className="link-product"
+          to={ {
+            pathname: `/productDetails/${id}`,
+            state: { availableQuantity },
+          } }
           data-testid="product-detail-link"
           availableQuantity={ availableQuantity }
         >
           {title}
         </Link>
         {this.ifShippingFree()}
-        <img src={ thumbnail } alt="imagem do produto" />
-        <p>{price}</p>
+        <p className="price">
+          {`Por: R$${price}`}
+        </p>
         <button
           type="button"
           data-testid="product-add-to-cart"
